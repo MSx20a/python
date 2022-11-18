@@ -1,0 +1,17 @@
+version: '3'
+services:
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - 27017:27017
+    volumes:  #掛載硬碟
+      - "D:/VScode program/python/db/mongo:/data/db"   #實體機的位置：容器裡面的位置
+  scrapy:
+    image: scrapinghub/splash
+    container_name: scrapy
+    ports:
+      - 8050:8050
+    # expose:  #設定內網連線
+    #   - 27017
+    
