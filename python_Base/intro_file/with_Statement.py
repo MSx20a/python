@@ -1,3 +1,4 @@
+# with statement正名是Context Manager(上下文管理器)
 # 可以讓code的可閱讀性變高，在開啟檔案後也會幫我們做自動關閉動作
 # open function mode:
 # r = read (讀取文件，也是預設)
