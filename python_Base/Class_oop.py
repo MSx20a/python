@@ -160,6 +160,7 @@ class Circle():
             total += i.area()  # 迴圈裡的i指的是area的記憶體位置<__main__.Circle object at 0x7f832c608820>；要把值抓出來才能做運算
         return total
 
+    # cls=Circle
     @classmethod
     def total_area2(cls):
         total = 0
@@ -223,6 +224,7 @@ class Employee():
     def tax_amount(self):
         return self.income*0.005
 
+    # tax_amount屬於Employee的屬性，所以也可以設定他的值
     @tax_amount.setter
     def amount(self, tax_money):
         self.income = tax_money*200
