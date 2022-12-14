@@ -7,6 +7,11 @@ parectic
 
 test1.py
 
+geckodriver.exe
+
+geckodriver.log
+
+Moon.html
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
