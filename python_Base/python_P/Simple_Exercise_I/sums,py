@@ -1,0 +1,10 @@
+def summ(x:list):
+    z=0
+    for i in x:
+       z+=i
+    print(z)
+    #return z
+
+summ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+summ([])
+summ([-10, -20, -30])
