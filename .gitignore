@@ -13,6 +13,8 @@ geckodriver.log
 
 Moon.html
 
+.env
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
