@@ -15,6 +15,15 @@ Moon.html
 
 .env
 
+report.html
+
+assets
+
+.pytest_cache
+
+__pycache__
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
