@@ -16,8 +16,47 @@ class TestThird:
         unittest (_type_): 三方後台登錄頁面測試
     """
 
-    # @pytest.mark.loginSusses
-    def test_Case1(self):
+    def testCase1(self):
+        """語系切換
+        """
+        load_dotenv()
+        options = Options()
+        options.add_argument("--disable-notifications")
+        try:
+            driver = webdriver.Firefox(
+                service=FirefoxService(GeckoDriverManager().install())
+            )
+            driver.maximize_window()
+            url = os.getenv("third_url")
+            driver.get(url)
+            time.sleep(2)
+        except Exception as e:
+            print(f"Error Massange：{str(e)}")
+        driver.find_element(By.ID, "languageDropdown").click()
+        comboBox = driver.find_elements(By.CLASS_NAME, "dropdown-item")
+        href = driver.find_elements(By.CSS_SELECTOR, "a.dropdown-item[href]")
+        # print(len(comboBox))
+        for i in range(len(comboBox)):
+            hope = href[i].text
+            comboBox[i].click()
+            time.sleep(1)
+            language = driver.find_element(By.ID, "languageDropdown").text
+            driver.find_element(By.ID, "languageDropdown").click()
+            # 第47~49行為避免selenium.common.exceptions.StaleElementReferenceException
+            # 指重新執行click()時會發生跳轉等變化，可能導致element status "過時"
+            comboBox = driver.find_elements(By.CLASS_NAME, "dropdown-item")
+            href = driver.find_elements(
+                By.CSS_SELECTOR, "a.dropdown-item[href]")
+            # print(len(hope))
+            print(f"期望值(下拉選單的名稱)：{hope}")
+            # print(len(language))
+            print(f"選擇語言後跳轉的值：{language}")
+            assert hope[:2] == language[:2], "判斷語言名稱的前三個字"
+            #assert hope == language
+        driver.close()
+
+    @pytest.mark.loginSusses
+    def testCase(self):
         """登入成功的情形"""
         load_dotenv()
         options = Options()
@@ -34,7 +73,7 @@ class TestThird:
             print(f"Error Massange：{str(e)}")
         driver.find_element(By.ID, "AbpTenantSwitchLink").click()
         time.sleep(1)
-        driver.find_element(By.ID, "Input_Name").send_keys("demo")
+        driver.find_element(By.ID, "Input_Name").send_keys("fae")
         driver.find_element(By.CLASS_NAME, "btn-primary").click()
         time.sleep(1)
         driver.find_element(
@@ -50,16 +89,17 @@ class TestThird:
             66
         ].text
         hope = os.getenv("third_userName")
+        print("此為登錄的自動測試")
         print(f"期望值：{hope}")
         print(f"頁面元素：{elementText}")
-        # Wprint(elementText)
+        # print(elementText)
         driver.close()
-        assert elementText == hope, "登錄不正常"
+        assert elementText == hope, "登錄正常"
 
-    # @pytest.mark.NotChooseGroup
-    # def test_Case2(self):
-    #     """未輸入租戶的情形"""
-    #     pass
+    @pytest.mark.NotChooseGroup
+    def testCase3(self):
+        """未輸入租戶的情形"""
+        pass
 
     # def testCase3(self):
     #     """登錄不成功的情形，未填帳號"""
@@ -88,26 +128,6 @@ class TestThird:
     #     self.assertEqual(result, hope, "加法運算錯誤")
 
 
-go = TestThird()
-go.test_Case1()
 # if __name__ == "__main__":
-#     go = MyTest()
-#     go.test_Case1()
-#     pytest.main()
-# print(__name__)
-# unittest.main()
-# 將多個testCase組裝為一個測試套件
-# suite = unittest.TestSuite()
-# suite.addTest(MyTest("testCase1"))
-# suite.addTest(MyTest("testCase3"))
-# dirPath = os.path.dirname(__file__)
-# logger.debug(f"結果:{dirPath}")
-# reportPath = os.path.join(dirPath, "report.html")
-# report = open(reportPath, mode="w+", encoding="utf-8")
-# 定義報告的格式
-# with open(reportPath, mode="w", encoding="utf-8") as f:
-#     runner = WinPath(output=f, title="測試報告", description="後臺登錄情形")
-#     runner.run(suite)
-# runner = HTMLTestRunner(output=report, title="測試報告", description="後臺登錄情形")
-# runner.run(suite)
-# report.close()
+#     go = TestThird()
+#     go.testCase1()

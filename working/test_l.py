@@ -58,10 +58,18 @@ from dotenv import load_dotenv
 
 # getUrl()
 # test_Case1()
-@pytest.mark.loginSusses
-class Test:
-    def test_cod(self):
-        assert 2+2 == 4, "正確"
+# @pytest.mark.usefixtures
+# @pytest.mark.loginSusses
+# class Test:
+#     def test_cod(self):
+#         assert 2+2 == 4, "正確"
 
-    def testMid(self):
-        assert 2+2 == 5, "正確為五"
+#     def testMid(self):
+#         assert 2+2 == 5, "正確為五"
+
+import pytest
+
+
+@pytest.mark.parametrize("x, y, expected", [(2, 2, 5), (5, 7, 12)])
+def test_addition(x, y, expected):
+    assert x + y == expected

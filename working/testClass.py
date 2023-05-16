@@ -8,7 +8,7 @@ import os
 from dotenv import load_dotenv
 
 
-class MyTest:
+class Test:
     """自動化測試
 
     Args:
@@ -17,8 +17,6 @@ class MyTest:
 
     def __init__(self) -> None:
         # 初始化條件
-        # print(self)
-        # print(type(self))
         self.options = Options()  # 實例化Options()
         self.env = load_dotenv()
         self.open_Third_Url = self.getUrl()
@@ -37,11 +35,14 @@ class MyTest:
             print(f"Error Massange：{str(e)}")
         return driver
 
+    def test_Case(self):
+        pass
+
     def test_Case1(self):
         """登入成功的情形"""
         self.open_Third_Url.find_element(By.ID, "AbpTenantSwitchLink").click()
         time.sleep(1)
-        self.open_Third_Url.find_element(By.ID, "Input_Name").send_keys("demo")
+        self.open_Third_Url.find_element(By.ID, "Input_Name").send_keys("fae")
         self.open_Third_Url.find_element(By.CLASS_NAME, "btn-primary").click()
         time.sleep(2)
         self.open_Third_Url.find_element(
@@ -92,5 +93,5 @@ class MyTest:
     #     self.assertEqual(result, hope, "加法運算錯誤")
 
 
-go = MyTest()
-go.test_Case1()
+# go = Test()
+# go.test_Case1()
