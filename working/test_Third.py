@@ -47,10 +47,11 @@ class TestThird:
             comboBox = driver.find_elements(By.CLASS_NAME, "dropdown-item")
             href = driver.find_elements(
                 By.CSS_SELECTOR, "a.dropdown-item[href]")
-            # print(len(hope))
             print(f"期望值(下拉選單的名稱)：{hope}")
-            # print(len(language))
+            # print(len(hope))
+            print(type(hope))
             print(f"選擇語言後跳轉的值：{language}")
+            # print(len(language))
             assert hope[:2] == language[:2], "判斷語言名稱的前三個字"
             #assert hope == language
         driver.close()
