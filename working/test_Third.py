@@ -43,7 +43,7 @@ class TestThird:
             language = driver.find_element(By.ID, "languageDropdown").text
             driver.find_element(By.ID, "languageDropdown").click()
             # 第47~49行為避免selenium.common.exceptions.StaleElementReferenceException
-            # 指重新執行click()時會發生跳轉等變化，可能導致element status "過時"
+            # 指重新執行click()時會發生跳轉等變化，可能導致element status "過時"，所以須重新定位元素
             comboBox = driver.find_elements(By.CLASS_NAME, "dropdown-item")
             href = driver.find_elements(
                 By.CSS_SELECTOR, "a.dropdown-item[href]")
@@ -55,7 +55,23 @@ class TestThird:
             assert hope[:2] == language[:2], "判斷語言名稱的前三個字"
             #assert hope == language
         driver.close()
-
+    @pytest.mark.NotChooseGroup
+    def testCase2(self):
+        """未輸入租戶的情形"""
+        load_dotenv()
+        options = Options()
+        options.add_argument("--disable-notifications")
+        try:
+            driver = webdriver.Firefox(
+                service=FirefoxService(GeckoDriverManager().install())
+            )
+            driver.maximize_window()
+            url = os.getenv("third_url")
+            driver.get(url)
+            time.sleep(2)
+        except Exception as e:
+            print(f"Error Massange：{str(e)}")
+            
     @pytest.mark.loginSusses
     def testCase(self):
         """登入成功的情形"""
@@ -96,11 +112,10 @@ class TestThird:
         # print(elementText)
         driver.close()
         assert elementText == hope, "登錄正常"
-
-    @pytest.mark.NotChooseGroup
-    def testCase3(self):
-        """未輸入租戶的情形"""
-        pass
+    # def testCase2(self):
+    #     """租戶功能測試"""
+        
+    
 
     # def testCase3(self):
     #     """登錄不成功的情形，未填帳號"""
@@ -122,11 +137,7 @@ class TestThird:
     #     time.sleep(3)
     #     self.driver.close()
 
-    # def testCase1(self):
-    #     i = Calculator(6, 8)
-    #     result = i.add()
-    #     hope = 14
-    #     self.assertEqual(result, hope, "加法運算錯誤")
+    
 
 
 # if __name__ == "__main__":
