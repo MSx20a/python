@@ -19,8 +19,7 @@ class TestThird:
     """
 
     def testCase1(self):
-        """語系切換
-        """
+        """登錄頁面-語系切換"""
         load_dotenv()
         options = Options()
         options.add_argument("--disable-notifications")
@@ -78,13 +77,12 @@ class TestThird:
         time.sleep(1)
         try:
             modalTitle=driver.find_element(By.CSS_SELECTOR, "h5.m").text
-            print(modalTitle)
+            #print(modalTitle)
             hope=driver.find_element(By.CSS_SELECTOR, "h5.modal-title").text
-            print(hope)
+            #print(hope)
         except NoSuchElementException:
             driver.close()
             pytest.fail("元素不存在")     
-        assert modalTitle is not None,"元素不存在"
         driver.close()
         assert modalTitle==hope,"視窗開啟失敗"
     def testCase3(self):
@@ -105,6 +103,7 @@ class TestThird:
         driver.find_element(
             By.ID, "LoginInput_UserNameOrEmailAddress"
         ).send_keys(os.getenv("third_userName"))
+        time.sleep(0.5)
         driver.find_element(By.ID, "LoginInput_Password").send_keys(
             os.getenv("third_passWord")
         )
