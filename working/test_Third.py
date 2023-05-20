@@ -25,12 +25,15 @@ class TestThird:
         url = os.getenv("thirdUrl")
         driver.get(url)
         time.sleep(2)
-        driver.find_element(By.ID, "languageDropdown").click()
-        #把下拉式選單combox內所有的語言存進list
-        comboBox = driver.find_elements(By.CLASS_NAME, "dropdown-item")
-        # 抓取語言清單內的url
-        href = driver.find_elements(By.CSS_SELECTOR, "a.dropdown-item[href]")
-        # print(len(comboBox))
+        try:
+            driver.find_element(By.ID, "languageDropdown").click()
+            #把下拉式選單combox內所有的語言存進list
+            comboBox = driver.find_elements(By.CLASS_NAME, "dropdown-item")
+            # 抓取語言清單內的url
+            href = driver.find_elements(By.CSS_SELECTOR, "a.dropdown-item[href]")
+            # print(len(comboBox))
+        except NoSuchElementException:
+            pytest.fail("抓取不到元素")
         for i in range(len(comboBox)):
             # 取得超連結的文字
             hope = href[i].text
