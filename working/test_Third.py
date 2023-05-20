@@ -76,7 +76,8 @@ class TestThird:
             pytest.fail("元素不存在")     
         driver.close()
         assert modalTitle==hope,"視窗開啟失敗"
-    def testCase2(self):
+
+    def testCase3(self):
         """關閉租戶視窗"""
         load_dotenv()
         driver = browserWebdriver(1)
@@ -102,8 +103,11 @@ class TestThird:
         driver.close()
         assert bodyClass != bodyClassCheck, "關閉租戶視窗正常"
 
+    def testCase4(self):
+        """租戶欄位是否能輸入文字"""
+        pass
 
-    def testCase3(self):
+    def testCase5(self):
         """未輸入租戶的情形"""
         load_dotenv()
         driver=browserWebdriver(1)
@@ -125,9 +129,7 @@ class TestThird:
         print(f"未輸入租戶時登入會出現'{warning}'")
         driver.close()
         assert warning == hope, "未輸入租戶"
-    def testCase4(self):
-        """租戶欄位是否能輸入文字"""
-        pass
+    
     # @pytest.mark.loginS
     def testCase(self):
         """登入成功的情形"""
@@ -175,7 +177,7 @@ class TestThird:
     #     """登錄不成功的情形，未填帳號"""
     #     self.driver.find_element(By.ID, "AbpTenantSwitchLink").click()
     #     time.sleep(0.5)
-    #     self.driver.find_element(By.ID, "Input_Name").send_keys("demo")
+    #     self.driver.find_element(By.ID, "Input_Name").send_keys("fae")
     #     self.driver.find_element(By.CLASS_NAME, "btn-primary").click()
     #     time.sleep(2)
     #     self.driver.find_element(By.ID, "LoginInput_Password").send_keys(
