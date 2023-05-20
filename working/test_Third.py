@@ -81,26 +81,23 @@ class TestThird:
         driver.get(url)
         time.sleep(5)
         try:
-            bodyClass1 = driver.find_element(
-                By.CSS_SELECTOR, "body").get_attribute("class")
-            print(bodyClass1)
             driver.find_element(By.ID, "AbpTenantSwitchLink").click()
             time.sleep(3)
             bodyClassCheck = driver.find_element(
                 By.CSS_SELECTOR, "body").get_attribute("class")
             # print(bodyClassCheck)
-            closeWindow=driver.find_element(By.CSS_SELECTOR,"button.btn-close").click()
+            driver.find_element(By.CSS_SELECTOR,"button.btn-close").click()
             time.sleep(3)
-            bodyClass2 = driver.find_element(
+            bodyClass = driver.find_element(
                 By.CSS_SELECTOR, "body").get_attribute("class")
             time.sleep(3)
-            print(f"點開租戶視窗的class:{bodyClass2},關閉租戶視窗的class:{bodyClass1}")
-            # print(bodyClass2)
+            print(f"點開租戶視窗的class:{bodyClassCheck},關閉租戶視窗的class:{bodyClass}")
+            # print(bodyClass)
         except NoSuchElementException:
             driver.close()
             pytest.fail("找不到元素")
         driver.close()
-        assert bodyClass1 == bodyClass2, "關閉租戶視窗正常"
+        assert bodyClass != bodyClassCheck, "關閉租戶視窗正常"
 
 
     def testCase3(self):
