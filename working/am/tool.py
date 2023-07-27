@@ -92,7 +92,7 @@ def loginBackStage(num: str, group: str, userName: str, passWord: str):
 # driver = browserWebdriver(1)
 # driver.get("http://google.com/")
 
-#目前會卡在登入後沒有等網頁家載完就做跳轉至quick-start頁面，而導致出錯
+#目前會卡在登入後沒有等網頁加載完就做跳轉至quick-start頁面，而導致出錯
 # driver = loginBackStage(1, "fae", "alvin", "1qaz@WSX")
 # # time.sleep(6)
 # driver.implicitly_wait(5)

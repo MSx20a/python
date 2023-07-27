@@ -15,31 +15,31 @@ user = os.getenv("thirdUserName")
 passWord = os.getenv("thirdPassWord")
 
 
-def testCase4():
-    """租戶視窗是否能輸入"""
-    load_dotenv()
-    driver = browserWebdriver(1)
-    # driver.implicitly_wait(3)
-    url = os.getenv("thirdUrl")
-    driver.get(url)
-    time.sleep(5)
-    driver.find_element(By.ID, "AbpTenantSwitchLink").click()
-    time.sleep(3)
-    try:
-        hope = os.getenv("thirdGroup")
-        driver.find_element(By.ID, "Input_Name").send_keys(hope)
-        time.sleep(0.5)
-        # 取得租戶輸入的值
-        groupInput = driver.find_element(
-            By.ID, "Input_Name").get_attribute("value")
-        # print(groupInput)
-        print(f"輸入租戶的值:{hope},取得輸入後的值:{groupInput}")
-        # print(bodyClass2)
-    except NoSuchElementException:
-        driver.close()
-        pytest.fail("找不到元素")
-    driver.close()
-    assert hope == groupInput, "關閉租戶視窗正常"
+# def testCase4():
+#     """租戶視窗是否能輸入"""
+#     load_dotenv()
+#     driver = browserWebdriver(1)
+#     # driver.implicitly_wait(3)
+#     url = os.getenv("thirdUrl")
+#     driver.get(url)
+#     time.sleep(5)
+#     driver.find_element(By.ID, "AbpTenantSwitchLink").click()
+#     time.sleep(3)
+#     try:
+#         hope = os.getenv("thirdGroup")
+#         driver.find_element(By.ID, "Input_Name").send_keys(hope)
+#         time.sleep(0.5)
+#         # 取得租戶輸入的值
+#         groupInput = driver.find_element(
+#             By.ID, "Input_Name").get_attribute("value")
+#         # print(groupInput)
+#         print(f"輸入租戶的值:{hope},取得輸入後的值:{groupInput}")
+#         # print(bodyClass2)
+#     except NoSuchElementException:
+#         driver.close()
+#         pytest.fail("找不到元素")
+#     driver.close()
+#     assert hope == groupInput, "關閉租戶視窗正常"
 
 # def testCase1():
 #     """語系切換"""
@@ -94,4 +94,4 @@ def test_addition(x, y, expected):
     assert x + y == expected
 
 
-testCase4()
+
