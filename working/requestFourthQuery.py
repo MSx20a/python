@@ -46,4 +46,4 @@ def query(merchantNo:str, transactionNumber:str,j:int):
         time.sleep(5)
         i += 1
 
-query("MA323060508111811855758946","T230804064304A300258894276")
+query("MA323060508111811855758946","T230804064304A300258894276",12)
