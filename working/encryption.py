@@ -39,9 +39,6 @@ class PayEncry():
         md5 = hashlib.md5()
         md5.update(sign.encode('utf-8'))
         result = md5.hexdigest().upper()
-        pprint(sign)
+        # pprint(sign)
         # pprint(result)
         return result
-
-    
-

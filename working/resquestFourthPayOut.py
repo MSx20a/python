@@ -2,6 +2,7 @@ import requests
 from datetime import datetime
 import pytz
 import os
+import time
 from dotenv import load_dotenv
 from pprint import pprint
 from encryption import PayEncry
@@ -25,19 +26,43 @@ pmDict = {
     "callbackUrl": os.getenv("callbackUrl_PayOut"),
 }
 
-x = PayEncry(pmDict,key)
+x = PayEncry(pmDict, key)
 sign = x.payMd5()
 body = x.body()
 body["sign"] = sign
 print("body:")
 pprint(body)
-header = {"Content-Type": "application/json",
-          "charset": "utf-8", "__tenant": os.getenv("tenantId_PayOut")}
+header = {"Content-Type": "application/json", "charset": "utf-8"}
 respone = requests.post(
     f"https://{domain}/api/payout", json=body, headers=header)
 if respone.status_code == 200:
     print("respone:")
     pprint(respone.json())
+    time.sleep(5)
+    i = True
+    while i:
+        pmQuery = {"merchantNo": os.getenv("merchantNo_PayOut"),
+                   "orderNumber": pmDict["orderNumber"],
+                   "timestamp": datetime.now(pytz.timezone(
+                       "UTC")).isoformat(timespec='milliseconds').replace("+00:00", "Z"),
+                   }
+        y = PayEncry(pmQuery, key)
+        qsSign = y.payMd5()
+        qsBody = y.body()
+        qsBody["sign"] = qsSign
+        print("查詢訂單狀態：")
+        print("body：")
+        qsHeader = {"Content-Type": "application/json", "charset": "utf-8"}
+        qsResponse = requests.post(
+            f"https://{domain}/api/payout/query", json=qsBody, headers=qsHeader)
+        if qsResponse.status_code == 200:
+            print("response：")
+            print(qsResponse.json())
+        else:
+            print("錯誤訊息：")
+            print(qsResponse.status_code)
+            print(qsResponse.json())
+        break
 else:
     print("錯誤訊息:")
     print(respone.text)
