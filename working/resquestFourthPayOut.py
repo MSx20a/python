@@ -6,6 +6,8 @@ import time
 from dotenv import load_dotenv
 from pprint import pprint
 from encryption import PayEncry
+from requestFourthPayInBalance import queryBalance
+from requestFourthQuery import query
 
 load_dotenv()
 domain = os.getenv("fourthDomain")
@@ -26,43 +28,29 @@ pmDict = {
     "callbackUrl": os.getenv("callbackUrl_PayOut"),
 }
 
-x = PayEncry(pmDict, key)
-sign = x.payMd5()
-body = x.body()
-body["sign"] = sign
-print("body:")
-pprint(body)
-header = {"Content-Type": "application/json", "charset": "utf-8"}
-respone = requests.post(
-    f"https://{domain}/api/payout", json=body, headers=header)
-if respone.status_code == 200:
-    print("respone:")
-    pprint(respone.json())
-    time.sleep(5)
-    i = True
-    while i:
-        pmQuery = {"merchantNo": os.getenv("merchantNo_PayOut"),
-                   "orderNumber": pmDict["orderNumber"],
-                   "timestamp": datetime.now(pytz.timezone(
-                       "UTC")).isoformat(timespec='milliseconds').replace("+00:00", "Z"),
-                   }
-        y = PayEncry(pmQuery, key)
-        qsSign = y.payMd5()
-        qsBody = y.body()
-        qsBody["sign"] = qsSign
-        print("查詢訂單狀態：")
-        print("body：")
-        qsHeader = {"Content-Type": "application/json", "charset": "utf-8"}
-        qsResponse = requests.post(
-            f"https://{domain}/api/payout/query", json=qsBody, headers=qsHeader)
-        if qsResponse.status_code == 200:
-            print("response：")
-            print(qsResponse.json())
-        else:
-            print("錯誤訊息：")
-            print(qsResponse.status_code)
-            print(qsResponse.json())
-        break
+channelBalance = queryBalance(
+    os.getenv("merchantNo_PayOut"), os.getenv("channelCode_PayOut"))
+availableBalance = channelBalance["data"]["availableBalance"]
+print(f"可用餘額：{availableBalance}")
+
+if float(pmDict["orderAmount"]) < float(channelBalance["data"]["availableBalance"]):
+    x = PayEncry(pmDict, key)
+    sign = x.payMd5()
+    body = x.body()
+    body["sign"] = sign
+    print("body:")
+    pprint(body)
+    header = {"Content-Type": "application/json", "charset": "utf-8"}
+    response = requests.post(
+        f"https://{domain}/api/payout", json=body, headers=header)
+    if response.status_code == 200:
+        print("response:")
+        responseData = response.json()
+        pprint(responseData)
+        time.sleep(5)
+        query(os.getenv("merchantNo_PayOut"),
+              responseData["data"]["transactionNumber"], 3)  # 查詢訂單
 else:
-    print("錯誤訊息:")
-    print(respone.text)
+    spread = float(pmDict['orderAmount']) - \
+        float(channelBalance['data']['availableBalance'])
+    print(f"{pmDict['channelCode']}通道餘額只剩{availableBalance}不足出款，請再加值{spread}")

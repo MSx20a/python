@@ -13,7 +13,15 @@ domain = os.getenv("fourthDomain")
 key = os.getenv("key_PayIn")
 
 
-def query(merchantNo:str, transactionNumber:str,j:int):
+def query(merchantNo: str, transactionNumber: str, j: int):
+    """
+    查詢訂單的狀態
+
+    Args:
+        merchantNo (str): 商戶號;
+        transactionNumber (str): 發起請求後返回的商戶單號;
+        j (int): 查詢次數
+    """
     data = {}
     data["merchantNo"] = merchantNo
     data["transactionNumber"] = transactionNumber
@@ -35,7 +43,7 @@ def query(merchantNo:str, transactionNumber:str,j:int):
             print("response：")
             qsResponseDict = qsResponse.json()
             pprint(qsResponseDict)
-            if qsResponseDict["data"]["orderStatus"] == "Succes":
+            if qsResponseDict["data"]["orderStatus"] == "SuccessReceived":
                 break
             elif qsResponseDict["data"]["orderStatus"] == "Fail":
                 break
@@ -43,7 +51,9 @@ def query(merchantNo:str, transactionNumber:str,j:int):
             print("錯誤訊息：")
             print(qsResponse.status_code)
             pprint(qsResponse.text)
-        time.sleep(5)
+        time.sleep(10)
         i += 1
 
-query("MA323060508111811855758946","T230804064304A300258894276",12)
+if __name__=="__main__":
+    query("MA323080409512810340109637","T230807053254A300701107439",1)
+    query("MA323080409512810340109637","T230807031247A302100766618",1)

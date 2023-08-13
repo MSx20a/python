@@ -1,8 +1,5 @@
-# from datetime import datetime
-# import pytz
 from pprint import pprint
 import hashlib
-import rsa
 
 
 class PayEncry():
@@ -20,9 +17,10 @@ class PayEncry():
 
     def body(self):
         """
+        將傳入的paraMeter內的key按照ASCII碼由小到大排序，並且剔除value為空的key
 
         Returns:
-            _type_: _description_
+            dict : 傳參
         """
         newPmDict = {}
         for key, value in self.paraMeter.items():
@@ -32,6 +30,12 @@ class PayEncry():
         return sortPmDict
 
     def payMd5(self):
+        """
+        將排序好的傳參，按照簽名規則並加上key做md5加密
+        
+        Returns:
+            _type_: _description_
+        """
         concatenationParameter = ""
         for key, value in self.body().items():
             concatenationParameter += f"{key}={value}&"
